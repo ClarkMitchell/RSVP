@@ -206,6 +206,9 @@
     "symfony/yaml": {
         "version": "v4.1.0"
     },
+    "twilio/sdk": {
+        "version": "5.19.3"
+    },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"
     },

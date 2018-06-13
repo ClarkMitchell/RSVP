@@ -11,7 +11,7 @@ use App\Entity\Guest;
 class GuestListController extends Controller
 {
     /**
-     * @Route("/guestlist", name="guest")
+     * @Route("/guestlist", name="guestlist")
      */
     public function index(SerializerInterface $serializer)
     {
