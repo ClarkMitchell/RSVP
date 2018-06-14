@@ -19,32 +19,44 @@ class GuestRepository extends ServiceEntityRepository
         parent::__construct($registry, Guest::class);
     }
 
-//    /**
-//     * @return Guest[] Returns an array of Guest objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function getGuestList()
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->formatGuestList(
+            $this->getGuests()
+        );
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Guest
+    public function getHeadCount()
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return count(
+            $this->getGuests()
+        );
     }
-    */
+    
+    private function getGuests()
+    {
+        return $this->findBy(['attending' => true]);
+    }
+
+    /**
+     * @var array $guests
+     *
+     * @return string $textFormat
+     */
+    private function formatGuestList($guests)
+    {
+        $textFormat = '';
+
+        foreach ($guests as $guest) {
+            $textFormat .= $guest->getFirstName();
+            $textFormat .= ' ';
+            $textFormat .= $guest->getLastName();
+
+            if ($guest !== end($guests)) {
+                $textFormat .= ', ';
+            }
+        }
+
+        return $textFormat;
+    }
 }

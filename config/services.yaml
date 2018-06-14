@@ -1,3 +1,8 @@
+parameters:
+    twilio_sid: ACcd4574347e8dfd1a7ebbd37565556839
+    twilio_token: 43017094762e38df6cd2327c4963796e
+    twilio_number: '+18634174577'
+
 services:
     _defaults:
         autowire: true
