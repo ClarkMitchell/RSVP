@@ -45,10 +45,24 @@ class GuestProcessor implements Processor
 
             return $this->getRecognitionMessage();
         }
+
+        return $this->getErrorMessage($name);
     }
 
     private function getRecognitionMessage()
     {
         return 'Thank you for RSVPing! We look forward to seeing you!';
+    }
+
+    private function getErrorMessage($name)
+    {
+        $message = <<<EOT
+            I could not find a record for the name:
+            ${name['firstName']} ${name['lastName']}. 
+            You may try again with a different variation of your name, 
+            or contact Clark directly at 352-613-1150.
+EOT;
+
+        return $message;
     }
 }
