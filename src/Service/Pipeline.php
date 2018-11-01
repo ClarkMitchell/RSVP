@@ -43,7 +43,6 @@ class Pipeline
             $response = $this->headCount->getResponse();
         } elseif ($message === 'no rsvp') {
             $response = $this->noRsvp->getResponse();
-            var_dump($response);die();
         } else {
             $this->guest->setGuestName($message);
             $this->guest->setPhone($phone);
