@@ -16,6 +16,6 @@ class GuestListProcessor implements Processor
 
     public function getResponse()
     {
-        return $this->repo->getGuestList() ?? 'No guests have RSVPed';
+        return $this->repo->getGuestList(true) ?? 'No guests have RSVPed';
     }
 }
