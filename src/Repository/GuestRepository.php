@@ -19,10 +19,10 @@ class GuestRepository extends ServiceEntityRepository
         parent::__construct($registry, Guest::class);
     }
 
-    public function getGuestList()
+    public function getGuestList($attending)
     {
         return $this->formatGuestList(
-            $this->getGuests()
+            $this->getGuests($attending)
         );
     }
 
@@ -32,10 +32,10 @@ class GuestRepository extends ServiceEntityRepository
             $this->getGuests()
         );
     }
-    
-    private function getGuests()
+
+    private function getGuests($attending = true)
     {
-        return $this->findBy(['attending' => true]);
+        return $this->findBy(['attending' => $attending]);
     }
 
     /**

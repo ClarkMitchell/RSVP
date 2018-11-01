@@ -52,7 +52,7 @@ class GuestProcessor implements Processor
 
             return $this->getRecognitionMessage();
         } elseif ($potentialMatches !== null) {
-            
+
             return $this->getPotentialMessage($name, $potentialMatches);
         }
 
