@@ -16,6 +16,6 @@ class NoRsvpProcessor implements Processor
 
     public function getResponse()
     {
-        return $this->repo->getGuestList(false);
+        return $this->repo->getGuestList(false) ?? 'All guests have RSVPed';
     }
 }
