@@ -26,7 +26,7 @@ class Pipeline
         $this->error = $error;
     }
 
-    public function getResponse($message)
+    public function getResponse($message, $phone)
     {
         $message = preg_replace(
             '/[^A-Za-z ]/',
@@ -39,6 +39,7 @@ class Pipeline
             $response = $this->headCount->getResponse();
         } else {
             $this->guest->setGuestName($message);
+            $this->guest->setPhone($phone);
             $response = $this->guest->getResponse();
         }
 

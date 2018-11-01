@@ -11,6 +11,7 @@ class GuestProcessor implements Processor
     private $repo;
     private $em;
     private $guestName;
+    private $phone;
 
     public function __construct(GuestRepository $repo, EntityManagerInterface $em)
     {
@@ -21,6 +22,11 @@ class GuestProcessor implements Processor
     public function setGuestName($guestName)
     {
         $this->guestName = $guestName;
+    }
+
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
     }
 
     public function getResponse()
@@ -37,6 +43,7 @@ class GuestProcessor implements Processor
         ];
 
         $guest = $this->repo->findOneBy($name);
+        $potentialMatches = $this->repo->findBy(['phone' => $this->phone]);
 
         if ($guest !== null) {
             $guest->setAttending(true);
@@ -44,9 +51,34 @@ class GuestProcessor implements Processor
             $this->em->flush();
 
             return $this->getRecognitionMessage();
+        } elseif ($potentialMatches !== null) {
+            
+            return $this->getPotentialMessage($name, $potentialMatches);
         }
 
         return $this->getErrorMessage($name);
+    }
+
+    private function getNameList($guests)
+    {
+        $guests = array_map(function($guest) {
+            return $guest->getFirstAndLast();
+        }, $guests);
+
+        return implode(', ', $guests);
+    }
+
+    private function getPotentialMessage($name, $potentialMatches)
+    {
+        $nameList = $this->getNameList($potentialMatches);
+        $message = <<<EOT
+I could not find a record for the name:
+${name['firstName']} ${name['lastName']}. 
+But I have the following names associated with your phone number:
+$nameList
+EOT;
+
+        return $message;
     }
 
     private function getRecognitionMessage()
@@ -57,10 +89,9 @@ class GuestProcessor implements Processor
     private function getErrorMessage($name)
     {
         $message = <<<EOT
-            I could not find a record for the name:
-            ${name['firstName']} ${name['lastName']}. 
-            You may try again with a different variation of your name, 
-            or contact Clark directly at 352-613-1150.
+I could not find a record for the name:
+${name['firstName']} ${name['lastName']}. 
+You may try again with a different variation of your name, or contact Clark directly at 352-613-1150.
 EOT;
 
         return $message;

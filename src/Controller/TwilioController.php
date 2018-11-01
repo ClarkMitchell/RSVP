@@ -22,7 +22,7 @@ class TwilioController extends Controller
         $from = $_REQUEST['From'];
         $body = $_REQUEST['Body'];
 
-        $response = $pipeline->getResponse($body);
+        $response = $pipeline->getResponse($body, $from);
 
         $client->messages->create(
             $from,

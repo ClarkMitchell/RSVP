@@ -65,6 +65,11 @@ class Guest
         return $this;
     }
 
+    public function getFirstAndLast(): ?string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     public function getPhone(): ?int
     {
         return $this->phone;
