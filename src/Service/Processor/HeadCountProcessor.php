@@ -16,6 +16,6 @@ class HeadCountProcessor implements Processor
 
     public function getResponse()
     { 
-        return $this->repo->getHeadCount() ?? 'No guests have RSVPed';
+        return $this->repo->getHeadCount() ?: 'No guests have RSVPed';
     }
 }
