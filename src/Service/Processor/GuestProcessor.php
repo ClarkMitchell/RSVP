@@ -31,11 +31,7 @@ class GuestProcessor implements Processor
 
     public function getResponse()
     {
-        $firstAndLast = explode(" ", $this->guestName);
-
-        if (count($firstAndLast) !== 2) {
-            return null;
-        }
+        $firstAndLast = explode(" ", $this->guestName, 2);
 
         $name = [
             'firstName' => $firstAndLast[0],
@@ -43,7 +39,6 @@ class GuestProcessor implements Processor
         ];
 
         $guest = $this->repo->findOneBy($name);
-        $potentialMatches = $this->repo->findBy(['phone' => $this->phone]);
 
         if ($guest !== null) {
             $guest->setAttending(true);
@@ -51,7 +46,16 @@ class GuestProcessor implements Processor
             $this->em->flush();
 
             return $this->getRecognitionMessage();
-        } elseif ($potentialMatches !== null) {
+        } else {
+            $potentialMatches = $this->repo->findBy(['phone' => $this->phone]);
+
+            if ($potentialMatches === null) {
+                $potentialMatches = $this->repo->findBy(['lastName' => $firstAndLast[1]]);
+            }
+
+            if ($potentialMatches === null) {
+                $potentialMatches = $this->repo->findBy(['firstName' => $firstAndLast[0]]);
+            }
 
             return $this->getPotentialMessage($name, $potentialMatches);
         }
@@ -74,7 +78,7 @@ class GuestProcessor implements Processor
         $message = <<<EOT
 I could not find a record for the name:
 ${name['firstName']} ${name['lastName']}. 
-But I have the following names associated with your phone number:
+Does one of the following names look like it could be a match?
 $nameList
 EOT;
 
