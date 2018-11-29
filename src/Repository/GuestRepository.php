@@ -28,19 +28,11 @@ class GuestRepository extends ServiceEntityRepository
 
     public function getHeadCount()
     {
-        $named = count(
+        $guests = count(
             $this->getGuests()
-        );
+        ) + 4;
 
-        $guests = $named + 4;
-
-        $potential = 6;
-
-        $message = <<< EOT
-$guests
-+${potential} potential others. 
-EOT;
-
+        return $guests . ' (possibly +' . 6 . ')';
     }
 
     private function getGuests($attending = true)
