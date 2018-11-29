@@ -79,6 +79,8 @@ class GuestProcessor implements Processor
 I could not find a record for the name:
 ${name['firstName']} ${name['lastName']}. 
 Does one of the following names look like it could be a match?
+If not feel free to contact Clark directly at 352-613-1150.
+
 $nameList
 EOT;
 
