@@ -43,7 +43,7 @@ class Pipeline
             $response = $this->headCount->getResponse();
         } elseif ($message === 'no rsvp') {
             $response = $this->noRsvp->getResponse();
-        } elseif ($message === 'help') {
+        } elseif ($message === 'commands') {
             $response = <<<EOT
 guestlist, 
 headcount, 
