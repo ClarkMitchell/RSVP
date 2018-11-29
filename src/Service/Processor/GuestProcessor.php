@@ -49,11 +49,11 @@ class GuestProcessor implements Processor
         } else {
             $potentialMatches = $this->repo->findBy(['phone' => $this->phone]);
 
-            if ($potentialMatches === null) {
+            if (!$potentialMatches) {
                 $potentialMatches = $this->repo->findBy(['lastName' => $firstAndLast[1]]);
             }
 
-            if ($potentialMatches === null) {
+            if (!$potentialMatches) {
                 $potentialMatches = $this->repo->findBy(['firstName' => $firstAndLast[0]]);
             }
 
